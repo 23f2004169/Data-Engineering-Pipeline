@@ -20,21 +20,31 @@ args = get_args()
 COURSE_URL = args.course_url
 
 def main():
+    # Define the folder name
+    folder_name = 'data'
+    # Check if it exists, if not, create it
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+        print(f"✅ Folder '{folder_name}' created.")
+    else:
+        print(f"ℹ️ Folder '{folder_name}' already exists.")
+
     args = get_args()
     driver = setup_driver()
-    ## Scrape audio and transcript data from NPTEL site
-    get_week_elements(driver, args.json)
-    get_transcript_links(args.course_url)
-    print("✅ All video links and transcript links saved to:", args.json)
+    # ## Scrape audio and transcript data from NPTEL site
+    # get_week_elements(driver, args.json)
+    # get_transcript_links(args.course_url)
+    # print("✅ All video links and transcript links saved to:", args.json)
 
-    ## Download audio files and transcripts from the scraped JSON file
-    download_audio_from_json(args.json)
-    download_transcripts("data/transcripts.json", "data/transcript_downloads")
-    print("✅ All audio files and transcripts downloaded.")
+    # ## Download audio files and transcripts from the scraped JSON file
+    # download_audio_from_json(args.json)
+    # download_transcripts("data/transcripts.json", "data/transcript_downloads")
+    # print("✅ All audio files and transcripts downloaded.")
 
     ## Preprocess audio files
     bash_script_path = "audio_preprocessor/preprocess_audio.sh"
-    subprocess.run(['wsl', 'bash', bash_script_path])
+    subprocess.run(['wsl', 'bash', bash_script_path,'data/audio_downloads','data/audio_processed','4' ])
+
     ## Remove trailing audio from the downloaded files
     trim_trailing_audio("data/audio_downloads", "data/audio_processed", 10)
     print("✅ All audio files converted and trimmed and saved to:", "data/audio_processed")
