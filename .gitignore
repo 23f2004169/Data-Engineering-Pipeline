@@ -1,0 +1,11 @@
+# Ignore all audio and transcript data files
+data/
+
+# Ignore Python cache
+__pycache__/
+
+# Ignore virtual environment
+venv/
+
+
+
