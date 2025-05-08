@@ -53,38 +53,6 @@ def download_audio_from_json(json_path):
         youtube_link = item["youtube_link"]
         download_audio_from_youtube_links(youtube_link, lesson_title)
 
-# def download_transcripts(json_path="data/transcript_links.json", output_dir="data/transcript_downloads"):
-#     # Create output directory
-#     os.makedirs(output_dir, exist_ok=True)
-
-#     # Load transcript links
-#     with open(json_path, "r", encoding="utf-8") as f:
-#         transcripts = json.load(f)
-
-#     print(f"📄 Downloading {len(transcripts)} transcripts...\n")
-
-#     for idx, entry in enumerate(transcripts, 1):
-#         title = entry.get("title", f"Transcript_{idx}")
-#         url = entry.get("link")
-
-#         try:
-#             print(url)
-#             # Extract file ID
-#             file_id = url.split("/d/")[1].split("/")[0]
-#             gdrive_url = f"https://drive.google.com/uc?id={file_id}"
-#             # Safe filename
-#             filename = "".join(c if c.isalnum() else "_" for c in title) + ".pdf"
-#             filepath = os.path.join(output_dir, filename)
-
-#             print(f"⬇️  Downloading '{title}'...")
-#             gdown.download(gdrive_url, filepath, quiet=False,use_cookies=True)
-#             #include error handling for gdown
-#         except Exception as e:
-#             print(f"⚠️ Failed to download {title}: {e}")
- 
-#     print("\n✅ All downloads completed.")
-
-
 def get_confirm_token(response):
     """Extracts confirmation token required for large files"""
     for key, value in response.cookies.items():

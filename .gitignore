@@ -1,6 +1,7 @@
 # Ignore all audio and transcript data files
 data/
 
+
 # Ignore Python cache
 __pycache__/
 

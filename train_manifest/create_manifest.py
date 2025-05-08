@@ -3,11 +3,6 @@ import os
 from pathlib import Path
 import soundfile as sf
 
-# Define your paths
-AUDIO_DIR = 'data/audio_processed'
-TRANSCRIPT_DIR = 'data/transcript_processed'
-MANIFEST_PATH = 'train_manifest.jsonl'
-
 def get_audio_duration(audio_path):
     """
     Get the duration of a .wav audio file in seconds.
@@ -20,6 +15,10 @@ def create_training_manifest():
     """
     Creates a train_manifest.jsonl file with audio_filepath, duration, and text.
     """
+    # Define your paths
+    AUDIO_DIR = 'data/audio_processed'
+    TRANSCRIPT_DIR = 'data/transcript_processed'
+    MANIFEST_PATH = 'train_manifest.jsonl'
     with open(MANIFEST_PATH, 'w', encoding='utf-8') as manifest_file:
         for audio_file in os.listdir(AUDIO_DIR):
             if audio_file.endswith('.wav'):
@@ -58,3 +57,5 @@ def create_training_manifest():
 if __name__ == '__main__':
     create_training_manifest()
     print("Manifest creation complete.")
+
+

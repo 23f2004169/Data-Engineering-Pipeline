@@ -8,7 +8,7 @@ def clean_filename(filename):
     cleaned = name.lower().replace(' ', '').replace('_', '') + ext
     return cleaned
 
-def rename_files_in_dir(directory):
+def rename_transcript_files_in_dir(directory):
     for filename in os.listdir(directory):
         old_path = os.path.join(directory, filename)
         new_filename = clean_filename(filename)

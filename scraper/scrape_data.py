@@ -82,6 +82,8 @@ def get_week_elements(driver, json_path):
         except Exception as e:
             print(f"❌ No lessons found in {week_text}: {e}")
 
+    driver.quit()
+
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     print(f"\n💾 Saved {len(data)} entries to {json_path}")

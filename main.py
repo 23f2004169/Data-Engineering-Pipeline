@@ -31,22 +31,22 @@ def main():
 
     args = get_args()
     driver = setup_driver()
-    # ## Scrape audio and transcript data from NPTEL site
-    # get_week_elements(driver, args.json)
-    # get_transcript_links(args.course_url)
-    # print("✅ All video links and transcript links saved to:", args.json)
+    ## Scrape audio and transcript data from NPTEL site
+    get_week_elements(driver, args.json)
+    get_transcript_links(args.course_url)
+    print("✅ All video links and transcript links saved to:", args.json)
 
-    # ## Download audio files and transcripts from the scraped JSON file
-    # download_audio_from_json(args.json)
-    # download_transcripts("data/transcripts.json", "data/transcript_downloads")
-    # print("✅ All audio files and transcripts downloaded.")
+    ## Download audio files and transcripts from the scraped JSON file
+    download_audio_from_json(args.json)
+    download_transcripts("data/transcripts.json", "data/transcript_downloads")
+    print("✅ All audio files and transcripts downloaded.")
 
     ## Preprocess audio files
     bash_script_path = "audio_preprocessor/preprocess_audio.sh"
-    subprocess.run(['wsl', 'bash', bash_script_path,'data/audio_downloads','data/audio_processed','4' ])
+    subprocess.run(['wsl', 'bash', bash_script_path,'data/audio_downloads','data/audio_wav','4' ])
 
     ## Remove trailing audio from the downloaded files
-    trim_trailing_audio("data/audio_downloads", "data/audio_processed", 10)
+    trim_trailing_audio("data/audio_wav", "data/audio_processed", 10)
     print("✅ All audio files converted and trimmed and saved to:", "data/audio_processed")
 
     ## preprocess transcripts
@@ -54,14 +54,13 @@ def main():
     print("✅ All transcripts processed and saved to:", "data/transcript_processed")
 
     ## Rename audio files and transcripts to match
-    rename_files_in_dir("data/audio_processed")
-    rename_files_in_dir("data/transcript_processed")
+    rename_audio_files_in_dir("data/audio_processed")
+    rename_transcript_files_in_dir("data/transcript_processed")
     print("✅ All files renamed.")
 
     ## Create manifest file
     create_training_manifest()
-    print("✅ All transcripts processed and saved to:", "data/transcript_processed")
-
+    print("✅ Manifest file created.")
     driver.quit()
 
 if __name__ == "__main__":
