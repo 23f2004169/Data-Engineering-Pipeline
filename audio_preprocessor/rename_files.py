@@ -20,5 +20,5 @@ def rename_audio_files_in_dir(directory):
 
 if __name__ == '__main__':
     print("Renaming audio files...")
-    rename_files_in_dir(audio_dir)
+    rename_audio_files_in_dir(audio_dir)
     print("Done renaming audio files.")

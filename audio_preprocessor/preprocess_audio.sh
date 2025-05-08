@@ -29,4 +29,4 @@ if ! command -v parallel &> /dev/null; then
 fi
 
 # Find and process all audio files (you can change extension if needed)
-find "$input_dir" -type f -name "*.webm" | parallel -j "$num_cpus" process_file
+find "$input_dir" -type f -name "*.mp3" | parallel -j "$num_cpus" process_file

@@ -21,6 +21,6 @@ def rename_transcript_files_in_dir(directory):
 if __name__ == '__main__':
 
     print("Renaming transcript files...")
-    rename_files_in_dir(transcript_dir)
+    rename_transcript_files_in_dir(transcript_dir)
 
     print("Done renaming transcript files!")
