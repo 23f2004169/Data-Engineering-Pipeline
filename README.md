@@ -6,16 +6,17 @@
 1.**Clone the Repository:**
 
 ```bash
-git clone <your-repo-link>
-cd <your-repo-folder>
+git clone <repo-link>
+cd <repo-folder>
 ```
 
 2.**Install Python Dependencies:**
 
 In **PowerShell** (or any terminal), run:
 
+```powershell
 pip install -r requirements.txt
-
+```
 
 Use **Choco (Chocolatey)** to install FFmpeg on Windows:
 
@@ -30,7 +31,7 @@ choco install ffmpeg
 
 
 
-3. **Set up Grafana :**
+3.**Set up Grafana :**
 
 Download & install Grafana:
 
@@ -40,12 +41,14 @@ Install Grafana with Chocolatey(Run on PowerShell as Administrator):
 
 `choco install grafana -y`
 
-Configure a **SQLite data source** to connect to the `dashboard/processed_data.db` file.
+Configure a **SQLite data source** to connect to the `dashboard/dashboard_data.db` file.
+
 `grafana-cli plugins install fr-ser-sqlite-datasource`
 
 And restart the Grafana service:
 
 `Restart-Service grafana`
+
 ---
 
 4. ## How to Run the Pipeline
@@ -201,3 +204,74 @@ python main.py https://nptel.ac.in/courses/106106184
 * Scripts support automation, scalability, and easy reuse for new datasets.
 
 
+### **To run Step Wise: Execution Guide**
+
+**Step 1 – Downloading Audio:**
+Run `main.py` with nptel course link as parameter to scrape YouTube links and download audio 
+        (e.g., `python main.py "https://nptel.ac.in/courses/106106184"`)
+
+**Step 2 – Preprocessing Audio:**
+Run `preprocess_audio.sh` with 3 args: input folder, output folder, and CPU count 
+        (e.g., `./audio_preprocessor/preprocess_audio.sh data/audio_downloads data/audio_processed 4`).
+Run remove_trailing_audio.py script to trim the trailing audio in order to detect and trim silence or unwanted parts at the end(last 10 secs of video).
+        (e.g., `python3 ./audio_preprocessor/remove_trailing_audio.py /data/audio_processed /data/audio_final`)
+
+**Step 3 - Preprocessing transcript files:**
+
+
+
+**Prerequisites:**
+Ensure packages inside requirements.txt are installed (`pip install requirements.txt`).
+
+
+### **Task 1 : Scrape and Download the Data**
+
+Automate the collection of audio lectures and their transcripts to build a speech-to-text dataset.
+
+#### **Methodology:**
+
+* **Lecture Audio Download:**
+
+  * Used Selenium to navigate to the **Course Details** tab.
+  * Scraped YouTube video links from iframe tags under each weekly lecture.
+  * Downloaded audio using `yt-dlp` into `data/audio_downloads/`.
+
+* **Transcript Download:**
+
+  * Navigated to the **Downloads** tab and expanded the **Transcripts** section.
+  * Extracted Google Drive links and used `requests` to download PDFs.
+  * Saved files to `data/transcript_downloads/`.
+
+---
+
+
+### **Task 2: Preprocessing Audio **
+
+To prepare the downloaded audio files for further analysis, we performed the following preprocessing steps:
+
+#### **1. Audio Conversion using Bash Script**
+
+* A bash script (`preprocess_audio.sh`) was created to:
+
+  * Convert audio files to `.wav` format using `ffmpeg`.
+  * Set the sampling rate to **16 kHz** and convert audio to **mono channel**.
+* The script accepts three user inputs:
+
+  * Path to input audio directory
+  * Path to output directory
+  * Number of CPUs for parallel execution
+* Audio processing is parallelized using `GNU parallel` to handle large-scale datasets (\~1M files).
+
+#### **2. Additional Cleaning: Trimming End-of-Lecture Noise**
+
+* Many lectures contain non-instructional audio in the last \~10 seconds (e.g., platform credits).
+* A Python script (`remove_trailing_audio.py`) was developed using `pydub` to:
+
+  * Trim the last 10 seconds of each WAV file.
+  * Save the cleaned audio to a final output directory.
+
+
+
+
+
+This repository builds a complete data engineering pipeline to curate a **speech-to-text dataset** from NPTEL lecture videos, **preprocess the data**, and **visualize key statistics** using Grafana.
