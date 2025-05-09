@@ -1,5 +1,5 @@
 #  DATA ENGINEERING PIPELINE
-## An data engineering pipeline to curate a Speech-To-Text dataset from publicly available lectures on NPTEL, to train speech recognition models.
+## This repository builds a complete data engineering pipeline to curate a **Speech-To-Text dataset** NPTEL lecture videos, **preprocess the data** to train speech recognition models and **visualize key statistics** using Grafana.
 
 ## Setup Instructions
 
@@ -81,37 +81,35 @@ python main.py https://nptel.ac.in/courses/106106184
 
 **What Happens Internally:**
 
-1. **Scraper Folder:**
+1. **Scraper Folder:** (`python scraper/scrape_data.py https://nptel.ac.in/courses/106106184`)
 
    * Scrapes all **YouTube links** (audio) & **transcript PDF links** using Selenium.
 
-2. **Downloader Folder:**
+2. **Downloader Folder:** (`python downloader/download_data.py https://nptel.ac.in/courses/106106184`)
 
    * Downloads **audio files** using `yt-dlp`.
    * Downloads **transcript PDFs** from the scraped links.
 
 3. **Audio Preprocessor Folder:**
 
-   * Converts audio to **WAV (16kHz, mono)** using ffmpeg.
-   * Removes the **last 10 seconds** to clean up ending music.
-   * Renames files for consistency.
+   * Converts audio to **WAV (16kHz, mono)** using ffmpeg (`./audio_preprocessor/preprocess_audio.sh data/audio_downloads data/audio_wav 4`)
+   * Removes the **last 10 seconds** to clean up ending music using pydub (`python ./audio_preprocessor/remove_trailing_audio.py /data/audio_wav /data/audio_processed`)
+   * Renames files for consistency (`python audio_preprocessor/rename_files.py`)
 
 4. **Text Preprocessor Folder:**
 
-   * Converts **PDFs to `.txt` files.**
-   * Cleans text: lowercase, punctuation removal, numbers to words
-   * Removes unspoken text segments in the lecture video from transcript
-   * Renames files to match audio.
+   * Converts **PDFs to `.txt` files.** (`python text_preprocessor/preprocess_transcript.py`)
+     * Cleans text: lowercase, punctuation removal, numbers to words 
+     * Removes unspoken text segments in the lecture video from transcript 
+   * Renames files to match audio. (`python text_preprocessor/rename_files.py`)
 
-5. **Train Manifest Creator:**
-
+5. **Train Manifest Creator:** (`python train_manifest/create_manifest.py`)
    * Generates a **`train_manifest.jsonl`** with:
-
      * `audio_filepath`
      * `duration`
      * `text`
 
-6. **Dashboard Folder:**
+6. **Dashboard Folder:**  (`python dashboard/process_data.py `)
   * From process_data.py
    * Processes:
      * Audio file path
@@ -125,10 +123,10 @@ python main.py https://nptel.ac.in/courses/106106184
      * Alphabet Size
   * Populates a **SQLite DB** for Grafana.
 
-7. **Data Folder:**
+7. **Data Folder:** (data)
   * Stores all Downloaded and Processed files in different folders and the transcript and audio links in json files
 
-8. **main.py**  (`python main.py "https://nptel.ac.in/courses/106106184`)
+8. **main.py**  (`python main.py https://nptel.ac.in/courses/106106184`)
   * Runs everything sequentially with a single command
 
 
@@ -198,81 +196,26 @@ Dashboard Insights:
 * Building the SQLite DB helped **Grafana** ingest data easily.
 * It was insightful to **visualize durations, word counts, character counts**, and ensure data balance.
 
-#### **Outcome:**
-
-* Successfully built a reusable pipeline for collecting lecture audio and transcript data from NPTEL courses.
-* Cleaned and uniformly formatted WAV audio files ready for further processing.
-* Scripts support automation, scalability, and easy reuse for new datasets.
-
-
-### **To run Step Wise: Execution Guide**
-
-**Step 1 – Downloading Audio:**
-Run `main.py` with nptel course link as parameter to scrape YouTube links and download audio 
-        (e.g., `python main.py "https://nptel.ac.in/courses/106106184"`)
-
-**Step 2 – Preprocessing Audio:**
-Run `preprocess_audio.sh` with 3 args: input folder, output folder, and CPU count 
-        (e.g., `./audio_preprocessor/preprocess_audio.sh data/audio_downloads data/audio_processed 4`).
-Run remove_trailing_audio.py script to trim the trailing audio in order to detect and trim silence or unwanted parts at the end(last 10 secs of video).
-        (e.g., `python3 ./audio_preprocessor/remove_trailing_audio.py /data/audio_processed /data/audio_final`)
-
-**Step 3 - Preprocessing transcript files:**
-
-
-
-**Prerequisites:**
-Ensure packages inside requirements.txt are installed (`pip install requirements.txt`).
-
-
-### **Task 1 : Scrape and Download the Data**
-
-Automate the collection of audio lectures and their transcripts to build a speech-to-text dataset.
-
-#### **Methodology:**
-
-* **Lecture Audio Download:**
-
-  * Used Selenium to navigate to the **Course Details** tab.
-  * Scraped YouTube video links from iframe tags under each weekly lecture.
-  * Downloaded audio using `yt-dlp` into `data/audio_downloads/`.
-
-* **Transcript Download:**
-
-  * Navigated to the **Downloads** tab and expanded the **Transcripts** section.
-  * Extracted Google Drive links and used `requests` to download PDFs.
-  * Saved files to `data/transcript_downloads/`.
-
 ---
 
+#### ** Outcome:**
 
-### **Task 2: Preprocessing Audio **
+* Developed a **modular, reusable pipeline** to collect and preprocess lecture audio and transcripts from NPTEL courses, scalable to any course via URL input.
 
-To prepare the downloaded audio files for further analysis, we performed the following preprocessing steps:
+* Automated **audio download and processing**:
+  * Converted audio to **16kHz mono WAV format**.
+  * Removed trailing non-informative segments for cleaner data.
 
-#### **1. Audio Conversion using Bash Script**
+* Automated **transcript extraction and cleaning**:
+  * Converted PDFs to `.txt`, lowercased text, removed punctuation,converted digits to spoken form and removed unspoken text segments.
 
-* A bash script (`preprocess_audio.sh`) was created to:
+* Generated a **training manifest (`train_manifest.jsonl`)** compatible with ASR frameworks like NVIDIA NeMo.
 
-  * Convert audio files to `.wav` format using `ffmpeg`.
-  * Set the sampling rate to **16 kHz** and convert audio to **mono channel**.
-* The script accepts three user inputs:
+* Created a **SQLite database** for dataset stats (duration, word & character counts) and built a **Grafana dashboard** for visualization.
 
-  * Path to input audio directory
-  * Path to output directory
-  * Number of CPUs for parallel execution
-* Audio processing is parallelized using `GNU parallel` to handle large-scale datasets (\~1M files).
+* Implemented **parallel processing** for efficiency and ensured **cross-platform compatibility** (tested on Windows with PowerShell).
 
-#### **2. Additional Cleaning: Trimming End-of-Lecture Noise**
-
-* Many lectures contain non-instructional audio in the last \~10 seconds (e.g., platform credits).
-* A Python script (`remove_trailing_audio.py`) was developed using `pydub` to:
-
-  * Trim the last 10 seconds of each WAV file.
-  * Save the cleaned audio to a final output directory.
-
-
-
-
-
-This repository builds a complete data engineering pipeline to curate a **speech-to-text dataset** from NPTEL lecture videos, **preprocess the data**, and **visualize key statistics** using Grafana.
+* The entire pipeline is **fully automated** and can be executed with:
+  ```bash
+  python main.py <course_url>
+  ```

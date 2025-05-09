@@ -193,9 +193,17 @@ def get_transcript_links(course_url):
     else:
         print("❌ No transcript links found to save.")
 
+def main():
+    args= get_args()
+    get_week_elements(setup_driver(), args.json)
+    get_transcript_links(args.course_url)
+    print("✅ All video links and transcript links saved to:", "data/video_links.json")
+def get_args():
+    parser = argparse.ArgumentParser(description="NPTEL YouTube Audio Scraper/Downloader.")
+    parser.add_argument("course_url", type=str, help="The NPTEL course URL to scrape.")
+    parser.add_argument("--json", type=str, default="data/video_links.json", help="Path to save the JSON file.")
+    return parser.parse_args()
 
-
-
-
-    
+if __name__ == "__main__":
+    main()
     

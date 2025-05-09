@@ -43,29 +43,6 @@ def process_manifest(input_file, db_file):
         alphabet TEXT
     )
     ''')
-
-    # Process the manifest file and insert into the audio_data table
-    # with open(input_file, 'r', encoding='utf-8') as f:
-    #     for line in f:
-    #         data = json.loads(line.strip())
-    #         duration = data.get('duration', 0)
-    #         text = data.get('text', '')
-    #         alphabet.update(char for char in text.lower() if not char.isspace())
-    #         total_duration += duration
-    #         total_utterances += 1
-    #         vocabulary.update(text.split())
-
-    #         cursor.execute('''
-    #         INSERT INTO audio_data (audio_filepath, duration, num_words, num_characters)
-    #         VALUES (?, ?, ?, ?)
-    #         ''', (data.get('audio_filepath', ''), duration, len(text.split()), len(text)))
-
-    # # Insert the summary statistics into the summary_statistics table
-    # cursor.execute('''
-    # INSERT INTO summary_statistics (total_duration, total_utterances, vocabulary_size, alphabet_size, alphabet)
-    # VALUES (?, ?, ?, ?, ?)
-    # ''', (total_duration, total_utterances, len(vocabulary), len(alphabet), ''.join(sorted(alphabet))))
-    # Clear existing audio data
     cursor.execute("DELETE FROM audio_data")
 
     # Read and process the JSONL file
@@ -116,6 +93,8 @@ def process_manifest(input_file, db_file):
     print(f"✅ Vocabulary Size: {len(vocabulary)}")
     print(f"✅ Alphabet Size: {len(alphabet)}")
     print(f"✅ Alphabet: {''.join(sorted(alphabet))}")
+    print("✅ Data saved to SQLite database:", db_file)
+    print("✅ Processed data for Grafana.")
 
 if __name__ == "__main__":
     process_manifest("train_manifest.jsonl", "dashboard/dashboard_data.db")
