@@ -29,29 +29,9 @@ choco install ffmpeg
 > * Mac: `brew install ffmpeg`
 > * Ubuntu: `sudo apt-get install ffmpeg`
 
-
-
-3.**Set up Grafana :**
-
-Download & install Grafana:
-
-[https://grafana.com/grafana/download}
-
-Install Grafana with Chocolatey(Run on PowerShell as Administrator):
-
-`choco install grafana -y`
-
-Configure a **SQLite data source** to connect to the `dashboard/dashboard_data.db` file.
-
-`grafana-cli plugins install fr-ser-sqlite-datasource`
-
-And restart the Grafana service:
-
-`Restart-Service grafana`
-
 ---
 
-4. ## How to Run the Pipeline
+3. ## How to Run the Pipeline
 
 Run everything **sequentially** with a **single command**:
 
@@ -86,8 +66,13 @@ python main.py https://nptel.ac.in/courses/106106184
 │   └── process_data.py
 |   └── dashboard_data.db
 ├── data/
-│   └── (Downloaded + Processed Data)
-|   └── (transcript and audio links in json file)
+│   └── audio_downloads
+│   └── audio_wav
+│   └── audio_processed
+│   └── transcript_downloads
+│   └── transcript_processed
+|   └── transcripts.json
+│   └── video_links.json
 ├── requirements.txt
 ├── requirements.in
 ├── README.md
@@ -103,18 +88,19 @@ python main.py https://nptel.ac.in/courses/106106184
 2. **Downloader Folder:**
 
    * Downloads **audio files** using `yt-dlp`.
-   * Downloads **transcript PDFs** using the scraped links.
+   * Downloads **transcript PDFs** from the scraped links.
 
 3. **Audio Preprocessor Folder:**
 
-   * Converts audio to **WAV (16kHz, mono)** using FFmpeg.
-   * Removes the **last 10 seconds** to clean up trailing silence.
+   * Converts audio to **WAV (16kHz, mono)** using ffmpeg.
+   * Removes the **last 10 seconds** to clean up ending music.
    * Renames files for consistency.
 
 4. **Text Preprocessor Folder:**
 
    * Converts **PDFs to `.txt` files.**
-   * Cleans text: lowercase, punctuation removal, numbers to words.
+   * Cleans text: lowercase, punctuation removal, numbers to words
+   * Removes unspoken text segments in the lecture video from transcript
    * Renames files to match audio.
 
 5. **Train Manifest Creator:**
@@ -126,35 +112,50 @@ python main.py https://nptel.ac.in/courses/106106184
      * `text`
 
 6. **Dashboard Folder:**
-
+  * From process_data.py
    * Processes:
-
      * Audio file path
-     * Duration
-     * Word count
-     * Character count
-   * Populates a **SQLite DB** for Grafana.
+     * Duration per file
+     * Word count per file
+     * Character count per file
+   * Finds:
+     * Total number of hours
+     * Total number of utterances
+     * Vocabulary Size
+     * Alphabet Size
+  * Populates a **SQLite DB** for Grafana.
 
 7. **Data Folder:**
   * Stores all Downloaded and Processed files in different folders and the transcript and audio links in json files
 
-8. **main.py**
+8. **main.py**  (`python main.py "https://nptel.ac.in/courses/106106184`)
   *Runs everything sequentially with a single command
 
 
-
-
 ---
+**Process to Set up Grafana :**
+
+Download & install Grafana:
+
+[https://grafana.com/grafana/download}
+
+Install Grafana with Chocolatey(Run on PowerShell as Administrator):
+
+`choco install grafana -y`
+
+Configure a **SQLite data source** to connect to the `dashboard/dashboard_data.db` file.
+
+`grafana-cli plugins install fr-ser-sqlite-datasource`
+
+And restart the Grafana service:
+
+`Restart-Service grafana`
 
 ## Using the Dashboard 
 
-1️⃣ In Grafana:
+Import the **dashboard DB** (provided in `/dashboard` ).
 
-* Set up a **SQLite data source** pointing to: `dashboard/dashboard_data.db`.
-
-2️⃣ Import the **dashboard DB** (provided in `/dashboard` ).
-
-3️⃣ Dashboard Insights:
+Dashboard Insights:
 
 * Total Hours
 * Total Utterances
