@@ -1,7 +1,8 @@
 #  DATA ENGINEERING PIPELINE
 ## This repository builds a complete data engineering pipeline to curate a **Speech-To-Text dataset** NPTEL lecture videos, **preprocess the data** to train speech recognition models.
 
-**Visualize Key Statistics** using Grafana : http://localhost:3000/public-dashboards/c238776f31774a8dbd9343c20de32e38
+**Visualize Key Statistics** using Grafana : 
+      http://localhost:3000/public-dashboards/c238776f31774a8dbd9343c20de32e38
 
 ## Setup Instructions
 
@@ -165,42 +166,42 @@ Dashboard Insights:
 
 ---
 
-## 🔍 Observations & Reflections
+## Observations & Reflections
 
-1️⃣ **Scraping:**
+1️. **Scraping:**
 
 * **Selenium WebDriver** was essential because the NPTEL site is dynamic.
 * Downloading both **YouTube links** and **Drive transcripts** required handling **dynamic elements** and waiting for JavaScript to load.
 
-2️⃣ **Downloading:**
+2️. **Downloading:**
 
 * `yt-dlp` made audio downloads smooth and efficient.
 * PDF downloads (from Google Drive) were direct and reliable using requests
 
-3️⃣ **Audio Preprocessing:**
+3. **Audio Preprocessing:**
 
 * **FFmpeg** handled audio conversion and trimming seamlessly.
 * Removing the last 10 seconds addressed trailing music often present in lectures.
 * File renaming was critical to ensure **consistent mapping** between audio & text.
 
-4️⃣ **Text Preprocessing:**
+4️. **Text Preprocessing:**
 
 * The PDFs had a clean structure, making text extraction straightforward.
 * Additional cleaning (lowercase, punctuation removal, number conversion via `num2words`) standardized transcripts well.
 
-5️⃣ **Manifest File:**
+5️. **Manifest File:**
 
 * The manifest format matched the requirements for key value pairs of audio path, duration,transcript text
 * Duration was calculated using `soundfile`.
 
-6️⃣ **Dashboard:**
+6️. **Dashboard:**
 
 * Building the SQLite DB helped **Grafana** ingest data easily.
 * It was insightful to **visualize durations, word counts, character counts**, and ensure data balance.
 
 ---
 
-#### ** Outcome:**
+## ** Outcome:**
 
 * Developed a **modular, reusable pipeline** to collect and preprocess lecture audio and transcripts from NPTEL courses, scalable to any course via URL input.
 
