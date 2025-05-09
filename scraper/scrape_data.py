@@ -19,8 +19,10 @@ def setup_driver():
     args = parser.parse_args()
     global COURSE_URL
     COURSE_URL = args.course_url
-    # options.add_argument("--headless")
+    options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")  
+
     return webdriver.Chrome(options=options)
 
 def get_week_elements(driver, json_path):
