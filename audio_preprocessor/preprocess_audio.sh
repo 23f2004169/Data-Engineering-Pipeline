@@ -28,5 +28,6 @@ if ! command -v parallel &> /dev/null; then
     exit 1
 fi
 
-# Find and process all audio files (you can change extension if needed)
-find "$input_dir" -type f -name "*.mp3" | parallel -j "$num_cpus" process_file
+# Find and process all audio files in parallel
+find "$input_dir" -type f \( -iname "*.mp3" -o -iname "*.m4a" -o -iname "*.webm" -o -iname "*.wav" -o -iname "*.flac" \) | parallel -j "$num_cpus" process_file
+

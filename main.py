@@ -5,6 +5,7 @@ from audio_preprocessor.rename_files import *
 from text_preprocessor.preprocess_transcript import *
 from text_preprocessor.rename_files import *
 from train_manifest.create_manifest import *
+from dashboard.process_data import *
 import subprocess
 import argparse
 
@@ -61,7 +62,16 @@ def main():
     ## Create manifest file
     create_training_manifest()
     print("✅ Manifest file created.")
+
+    ## Process the data for Grafana
+    process_manifest("train_manifest.jsonl", "dashboard/processed_data.csv")
+    print("✅ Processed data for Grafana.")
+    ## Create Grafana dashboard
+    # subprocess.run(['wsl', 'bash', 'dashboard/create_dashboard.sh'])
+    # print("✅ Grafana dashboard created.")
+
     driver.quit()
+    print("✅ All tasks completed successfully.")
 
 if __name__ == "__main__":
     main()

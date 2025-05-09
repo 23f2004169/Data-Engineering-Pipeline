@@ -12,32 +12,32 @@ from selenium.webdriver.support import expected_conditions as EC
 import argparse
 import requests
 
-def download_audio_from_youtube_links(youtube_link, lesson_title):
-    safe_title = "".join(c for c in lesson_title if c.isalnum() or c in " _-").rstrip()
-    output_folder = "data/audio_downloads"
-    os.makedirs(output_folder, exist_ok=True)
+# def download_audio_from_youtube_links(youtube_link, lesson_title):
+#     safe_title = "".join(c for c in lesson_title if c.isalnum() or c in " _-").rstrip()
+#     output_folder = "data/audio_downloads"
+#     os.makedirs(output_folder, exist_ok=True)
 
-    output_path = os.path.join(output_folder, f"{safe_title}.%(ext)s")
-    mp3_file_path = output_path.replace("%(ext)s", "mp3")
+#     output_path = os.path.join(output_folder, f"{safe_title}.%(ext)s")
+#     mp3_file_path = output_path.replace("%(ext)s", "mp3")
 
-    if os.path.exists(mp3_file_path):
-        print(f"⚠️ Skipping {safe_title}, already exists.")
-        return
+#     if os.path.exists(mp3_file_path):
+#         print(f"⚠️ Skipping {safe_title}, already exists.")
+#         return
 
-    print(f"⬇️ Downloading audio for: {safe_title}")
+#     print(f"⬇️ Downloading audio for: {safe_title}")
 
-    try:
-        subprocess.run([
-            "yt-dlp",
-            "-f", "bestaudio",
-            "--extract-audio",
-            "--audio-format", "mp3",
-            "-o", output_path,
-            youtube_link
-        ], check=True)
-        print(f"🎧 Downloaded and saved as: {safe_title}.mp3\n")
-    except subprocess.CalledProcessError as e:
-        print(f"❌ yt-dlp failed for {safe_title}: {e}")
+#     try:
+#         subprocess.run([
+#             "yt-dlp",
+#             "-f", "bestaudio",
+#             "--extract-audio",
+#             "--audio-format", "mp3",
+#             "-o", output_path,
+#             youtube_link
+#         ], check=True)
+#         print(f"🎧 Downloaded and saved as: {safe_title}.mp3\n")
+#     except subprocess.CalledProcessError as e:
+#         print(f"❌ yt-dlp failed for {safe_title}: {e}")
 
 def download_audio_from_json(json_path):
     if not os.path.exists(json_path):
@@ -52,6 +52,32 @@ def download_audio_from_json(json_path):
         lesson_title = item["lesson_title"]
         youtube_link = item["youtube_link"]
         download_audio_from_youtube_links(youtube_link, lesson_title)
+
+def download_audio_from_youtube_links(youtube_link, lesson_title):
+    safe_title = "".join(c for c in lesson_title if c.isalnum() or c in " _-").rstrip()
+    output_folder = "data/audio_downloads"
+    os.makedirs(output_folder, exist_ok=True)
+
+    output_path = os.path.join(output_folder, f"{safe_title}.%(ext)s")
+
+    # Check if the file (any extension) already exists
+    expected_files = [f for f in os.listdir(output_folder) if f.startswith(safe_title)]
+    if expected_files:
+        print(f"⚠️ Skipping {safe_title}, already exists.")
+        return
+
+    print(f"⬇️ Downloading audio for: {safe_title}")
+
+    try:
+        subprocess.run([
+            "yt-dlp",
+            "-f", "bestaudio",
+            "-o", output_path,
+            youtube_link
+        ], check=True)
+        print(f"🎧 Downloaded and saved as: {safe_title} (original audio format)\n")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ yt-dlp failed for {safe_title}: {e}")
 
 def get_confirm_token(response):
     """Extracts confirmation token required for large files"""
@@ -120,5 +146,5 @@ def download_transcripts(json_path="data/transcript_links.json", output_dir="dat
 
 if __name__ == "__main__":
     download_transcripts("data/transcripts.json", "data/transcript_downloads")
-
+    download_audio_from_json("data/video_links.json")
 

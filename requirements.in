@@ -9,4 +9,4 @@ num2words
 PyPDF2 
 soundfile
 pathlib
-
+jsonlines

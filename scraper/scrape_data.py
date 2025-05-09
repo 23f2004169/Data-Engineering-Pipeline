@@ -89,9 +89,6 @@ def get_week_elements(driver, json_path):
     print(f"\n💾 Saved {len(data)} entries to {json_path}")
 
 
-
- 
-
 def get_transcript_links(course_url):
     driver = setup_driver()
     wait = WebDriverWait(driver, 10)
