@@ -129,7 +129,7 @@ python main.py https://nptel.ac.in/courses/106106184
   * Stores all Downloaded and Processed files in different folders and the transcript and audio links in json files
 
 8. **main.py**  (`python main.py "https://nptel.ac.in/courses/106106184`)
-  *Runs everything sequentially with a single command
+  * Runs everything sequentially with a single command
 
 
 ---
