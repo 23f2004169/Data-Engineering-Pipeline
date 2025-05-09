@@ -149,7 +149,7 @@ And restart the Grafana service:
 
 `Restart-Service grafana`
 
-## Using the Dashboard 
+### Using the Dashboard 
 
 Import the **dashboard DB** (provided in `/dashboard` ).
 
