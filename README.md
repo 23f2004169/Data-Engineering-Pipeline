@@ -1,5 +1,7 @@
 #  DATA ENGINEERING PIPELINE
-## This repository builds a complete data engineering pipeline to curate a **Speech-To-Text dataset** NPTEL lecture videos, **preprocess the data** to train speech recognition models and **visualize key statistics** using Grafana.
+## This repository builds a complete data engineering pipeline to curate a **Speech-To-Text dataset** NPTEL lecture videos, **preprocess the data** to train speech recognition models.
+
+**Visualize Key Statistics** using Grafana : http://localhost:3000/public-dashboards/c238776f31774a8dbd9343c20de32e38
 
 ## Setup Instructions
 
