@@ -1,6 +1,10 @@
 #  DATA ENGINEERING PIPELINE
 ## This repository builds a complete data engineering pipeline to curate a **Speech-To-Text dataset** NPTEL lecture videos, **preprocess the data** to train speech recognition models.
 
+The above code was tested on the courses: 
+NOC:Deep Learning, IIT Ropar (`https://nptel.ac.in/courses/106106184`)  and 
+NOC:Introduction to Electrical Engineering, IIT Delhi (`https://nptel.ac.in/courses/108102185`)_
+
 **Visualize LIVE Key Statistics** using Grafana : 
       http://localhost:3000/public-dashboards/c238776f31774a8dbd9343c20de32e38
 
@@ -222,6 +226,3 @@ Dashboard Insights:
   ```bash
   python main.py <course_url>
   ```
-The above code was tested on the courses: 
-NOC:Deep Learning, IIT Ropar (`https://nptel.ac.in/courses/106106184`)  and 
-NOC:Introduction to Electrical Engineering, IIT Delhi (`https://nptel.ac.in/courses/108102185`)_
