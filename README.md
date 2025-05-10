@@ -10,14 +10,14 @@ NOC:Aircraft Maintenance, IIT Kanpur (`https://nptel.ac.in/courses/101104071`)
 
 ## Setup Instructions
 
-1.**Clone the Repository:**
+**Clone the Repository:**
 
 ```bash
 git clone https://github.com/23f2004169/Data-Engineering-Pipeline
 cd Data-Engineering-Pipeline
 ```
 
-2.**Install Python Dependencies:**
+**Install Python Dependencies:**
 
 In **PowerShell** (or any terminal), run:
 
@@ -38,7 +38,7 @@ choco install ffmpeg
 
 ---
 
-3. ## How to Run the Pipeline
+ ## How to Run the Pipeline
 
 Run everything **sequentially** with a **single command**:
 
