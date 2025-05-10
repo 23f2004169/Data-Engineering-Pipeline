@@ -168,6 +168,17 @@ Dashboard Insights:
 * Histograms: Duration/File, Words/File, Characters/File
 * Alphabet Table
 
+## Grafana Dashboard displaying the statistic of two courses:
+
+ * Summary statistics for Deep Learning course (106106184):
+![Diagram](dashboard/Dashboard%20for%20Course%20106106184.png)
+
+ 
+ * Summary statistics for Aircraft Maintenance course (101104071): 
+![Diagram](dashboard/Dashboard%20for%20Course%20101104071.png)
+
+
+
 ---
 
 ## Observations & Reflections
@@ -226,13 +237,4 @@ Dashboard Insights:
   ```bash
   python main.py <course_url>
   ```
-
-## Grafana Dashboard displaying the statistic of two courses:
-
- * Summary statistics for Deep Learning course (106106184):
-![Diagram](dashboard/Dashboard%20for%20Course%20106106184.png)
-
- 
- * Summary statistics for Aircraft Maintenance course (101104071): 
-![Diagram](dashboard/Dashboard%20for%20Course%20101104071.png)
 
