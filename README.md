@@ -226,3 +226,11 @@ Dashboard Insights:
   ```bash
   python main.py <course_url>
   ```
+
+## Grafana Dashboard displaying the statistic of two courses:
+ * course 
+  
+ 
+ * course 101104071 
+ ![Diagram](dashboard\Dashboard for Course 101104071.png)
+
