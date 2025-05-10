@@ -232,5 +232,5 @@ Dashboard Insights:
   
  
  * course 101104071 
- ![Diagram](dashboard\Dashboard for Course 101104071.png)
+![Diagram](dashboard/Dashboard for Course 101104071.png)
 
