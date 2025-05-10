@@ -13,8 +13,8 @@ NOC:Aircraft Maintenance, IIT Kanpur (`https://nptel.ac.in/courses/101104071`)
 1.**Clone the Repository:**
 
 ```bash
-git clone <repo-link>
-cd <repo-folder>
+git clone https://github.com/23f2004169/Data-Engineering-Pipeline
+cd Data-Engineering-Pipeline
 ```
 
 2.**Install Python Dependencies:**
