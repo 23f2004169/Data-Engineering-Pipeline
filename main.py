@@ -33,8 +33,8 @@ def main():
     args = get_args()
     driver = setup_driver()
     ## Scrape audio and transcript data from NPTEL site
-    get_transcript_links(args.course_url)
     get_week_elements(driver, args.json)
+    get_transcript_links(args.course_url)
     print("✅ All video links and transcript links saved to:", args.json)
 
     ## Download audio files and transcripts from the scraped JSON file
