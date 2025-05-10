@@ -2,14 +2,14 @@ import json
 import csv
 import string
 
-#csv => audio_filepath,duration,num_words,num_characters
+#columns=> audio_filepath,duration,num_words,num_characters
 #function returns  Total Hours, Total Utterances, Vocabulary Size,Alphabet Size ,Alphabet
 
 import sqlite3
 import json
 import string
 
-# Path to your train_manifest.jsonl file
+# Path to train_manifest.jsonl file
 input_file = 'train_manifest.jsonl'
 db_file = 'dashboard/dashboard_data.db'
 

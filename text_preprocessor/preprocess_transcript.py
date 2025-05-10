@@ -14,11 +14,11 @@ def pdf_to_text(pdf_path):
 def remove_unspoken_segments(text):
     """Remove unspoken transcript segments using general patterns."""
     patterns_to_remove = [
-        r"\(refer slide time: \d{2}:\d{2}\)",         # (Refer Slide Time: 00:56)
+        r"\(refer slide time: \d{2}:\d{2}\)",         # (Refer Slide Time: )
         r"\bprof\.\s+[a-z\s]+\n?",                   # Lines with professor names
         r"department of [a-z\s&]+",                  # Department names
         r"indian institute of technology[^\n]*",     # IIT + location
-        r"lecture\s*[-–—]?\s*\d+",                   # Lecture numbers like "Lecture – 01"
+        r"lecture\s*[-–—]?\s*\d+",                   # Lecture numbers
         r"\btable of contents\b",                    # Table of contents
         r"\(.*?\)",                                  # Bracketed titles or asides
         r"^\s*\d+\s*$",                              # Standalone numbers (slide/page numbers)
@@ -71,4 +71,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-# process_all_transcripts("data/transcript_downloads", "data/transcript_processed")

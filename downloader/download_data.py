@@ -12,32 +12,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import argparse
 import requests
 
-# def download_audio_from_youtube_links(youtube_link, lesson_title):
-#     safe_title = "".join(c for c in lesson_title if c.isalnum() or c in " _-").rstrip()
-#     output_folder = "data/audio_downloads"
-#     os.makedirs(output_folder, exist_ok=True)
-
-#     output_path = os.path.join(output_folder, f"{safe_title}.%(ext)s")
-#     mp3_file_path = output_path.replace("%(ext)s", "mp3")
-
-#     if os.path.exists(mp3_file_path):
-#         print(f"⚠️ Skipping {safe_title}, already exists.")
-#         return
-
-#     print(f"⬇️ Downloading audio for: {safe_title}")
-
-#     try:
-#         subprocess.run([
-#             "yt-dlp",
-#             "-f", "bestaudio",
-#             "--extract-audio",
-#             "--audio-format", "mp3",
-#             "-o", output_path,
-#             youtube_link
-#         ], check=True)
-#         print(f"🎧 Downloaded and saved as: {safe_title}.mp3\n")
-#     except subprocess.CalledProcessError as e:
-#         print(f"❌ yt-dlp failed for {safe_title}: {e}")
 
 def download_audio_from_json(json_path):
     if not os.path.exists(json_path):
