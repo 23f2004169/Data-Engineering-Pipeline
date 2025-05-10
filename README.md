@@ -222,3 +222,6 @@ Dashboard Insights:
   ```bash
   python main.py <course_url>
   ```
+The above code was tested on the courses: 
+NOC:Deep Learning, IIT Ropar (`https://nptel.ac.in/courses/106106184`)  and 
+NOC:Introduction to Electrical Engineering, IIT Delhi (`https://nptel.ac.in/courses/108102185`)_
