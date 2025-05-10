@@ -201,7 +201,7 @@ Dashboard Insights:
 
 ---
 
-## ** Outcome:**
+## **Outcome:**
 
 * Developed a **modular, reusable pipeline** to collect and preprocess lecture audio and transcripts from NPTEL courses, scalable to any course via URL input.
 
