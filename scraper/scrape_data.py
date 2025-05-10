@@ -32,16 +32,29 @@ def get_week_elements(driver, json_path):
     time.sleep(3)
 
     week_spans = wait.until(
-        EC.presence_of_all_elements_located((By.XPATH, "//span[contains(text(), 'Week')]"))
+    EC.presence_of_all_elements_located((
+        By.XPATH,
+        "//span[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'week')]"
+    ))
     )
     print(f"🔎 Found {len(week_spans)} week spans.")
+
 
     data = []
 
     for i in range(len(week_spans)):
+        # week_spans = wait.until(
+        #     EC.presence_of_all_elements_located((By.XPATH, "//span[contains(text(), 'Week')]"))
+        # )
         week_spans = wait.until(
-            EC.presence_of_all_elements_located((By.XPATH, "//span[contains(text(), 'Week')]"))
+        #week both in uppercase and lowercase
+        EC.presence_of_all_elements_located((
+        By.XPATH,
+        "//span[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'week')]"
+        ))
         )
+        print(f"🔎 Found {len(week_spans)} week spans.")
+
         week = week_spans[i]
         week_text = week.text.strip()
         print(f"\n📂 Opening {week_text}...")
