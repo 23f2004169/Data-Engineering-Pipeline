@@ -134,7 +134,7 @@ python main.py https://nptel.ac.in/courses/106106184
 
 
 ---
-**Process to Set up Grafana :**
+## Process to Set up Grafana :
 
 Download & install Grafana:
 
