@@ -168,7 +168,7 @@ Dashboard Insights:
 * Histograms: Duration/File, Words/File, Characters/File
 * Alphabet Table
 
-## Grafana Dashboard displaying the statistic of two courses:
+## Grafana Dashboard displaying the key statistics of two courses:
 
  * Summary statistics for Deep Learning course (106106184):
 ![Diagram](dashboard/Dashboard%20for%20Course%20106106184.png)
