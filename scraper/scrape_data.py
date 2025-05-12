@@ -77,7 +77,7 @@ def get_week_elements(driver, json_path):
                 print(f"🎥 Lesson: {lesson_title}")
                 try:
                     li.click()
-                    # time.sleep(2)
+                    time.sleep(2)
                     iframe = wait.until(
                         EC.presence_of_element_located(
                             (By.CSS_SELECTOR, "iframe[src*='youtube.com']")
